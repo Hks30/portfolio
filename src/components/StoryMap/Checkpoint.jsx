@@ -1,3 +1,4 @@
+// src/components/StoryMap/Checkpoint.jsx
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
@@ -13,7 +14,7 @@ const StyledLink = styled(Link)`
 `;
 
 const CheckpointContainer = styled.div`
-  position: relative;
+  position: absolute;
   width: 100%;
   max-width: 220px;
   background-color: rgba(20, 23, 37, 0.85);

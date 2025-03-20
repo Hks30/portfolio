@@ -1,4 +1,4 @@
-// src/hooks/useParallax.js
+
 import { useState, useEffect } from 'react';
 
 const useParallax = (ref) => {

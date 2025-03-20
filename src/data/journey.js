@@ -1,4 +1,3 @@
-// src/data/journey.js
 export const journeyData = {
     education: {
       id: 1,

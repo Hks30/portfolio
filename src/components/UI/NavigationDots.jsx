@@ -33,7 +33,7 @@ const Dot = styled.div`
 
 const NavigationDots = ({ total, active, onDotClick }) => {
   const handleDotClick = (index) => {
-    // Use the prop if provided, otherwise use local function
+
     if (onDotClick) {
       onDotClick(index);
     } else {
