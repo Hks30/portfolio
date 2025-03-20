@@ -6,52 +6,9 @@ import ParallaxLayer from './ParallaxLayer';
 import NavigationDots from '../UI/NavigationDots';
 import styled from 'styled-components';
 import { scroller } from 'react-scroll';
+import ContactSection from '../Contact/ContactSection';
+import { journeyData } from '../../data/journey';
 
-// Using the journey data you provided
-const journeyData = {
-  education: {
-    id: 1,
-    title: "Temple University",
-    subtitle: "Bachelor's in Computer Science",
-    details: "GPA: 3.42",
-    skills: ["Java", "Python", "OOP"],
-    timeframe: "Graduated Fall 2024"
-  },
-  projects: [
-    {
-      id: 2,
-      title: "GaiNS.ai Project",
-      subtitle: "AI-Powered Workout Assistant",
-      details: "Integrated ChatGPT API",
-      skills: ["Python", "Django", "REST API"],
-      github: "https://github.com/cis3296s24/01-Gains-AI"
-    },
-    {
-      id: 3,
-      title: "Travel Tales",
-      subtitle: "Full-Stack Travel Blog",
-      details: "Responsive UI with React",
-      skills: ["React", "Spring Boot", "MySQL"],
-      github: "https://github.com/Hks30/Travel-Tales"
-    },
-    {
-      id: 4,
-      title: "InSync",
-      subtitle: "Multilingual Communication App",
-      details: "Real-time translation capabilities",
-      skills: ["Node.js", "Python", "API Integ."],
-      github: "https://github.com/capstone-projects-2024-fall/aldwairi-projects-insync-language-translator"
-    },
-    {
-      id: 5,
-      title: "Mobile Web Browser",
-      subtitle: "Android Application",
-      details: "Feature-rich browsing experience",
-      skills: ["Kotlin", "Android"],
-      github: "https://github.com/Hks30/MobileBrowser.git"
-    }
-  ]
-};
 
 const StoryMapContainer = styled.div`
   position: relative;
@@ -88,11 +45,11 @@ const ContentWrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  position: sticky;
+  position: relative;
   top: 20px;
   text-align: center;
   color: #ff4d79;
-  font-size: 2rem;
+  font-size: 3rem;
   z-index: 20;
   margin-bottom: 60px;
 
@@ -104,7 +61,6 @@ const Title = styled.h1`
 const CheckpointsContainer = styled.div`
   position: relative;
   width: 100%;
-  min-height: 200vh; /* Ensure enough space for timeline */
   padding-bottom: 80px;
 `;
 
@@ -219,6 +175,7 @@ const StoryMap = () => {
         active={activeCheckpoint}
         onDotClick={handleDotClick}
       />
+      <ContactSection />
     </StoryMapContainer>
   );
 };

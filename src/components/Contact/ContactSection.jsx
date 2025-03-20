@@ -4,7 +4,7 @@ import { Element } from 'react-scroll';
 
 const ContactContainer = styled.div`
   position: relative;
-  min-height: 100vh;
+  height: 10vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,8 +16,8 @@ const ContactCard = styled.div`
   background: rgba(20, 23, 37, 0.85);
   border-radius: 8px;
   padding: 10px;
-  width: 80%;
-  max-width: 200px;
+  width: 50%;
+  max-width: 2000px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   border: 0.5px solid #304878;
 `;
@@ -53,8 +53,14 @@ const ContactSection = () => {
     <Element name="contact">
       <ContactContainer>
         <ContactCard>
-          <Title>Contact</Title>
-          
+          <Title>About Me</Title>
+          <h2>Himanshi Sheth</h2>
+          <h5>Permanet Resident of USA - No sponsorship required</h5>
+
+          <p>I am an aspiring software developer with hands-on experience in React, Java, Spring Boot, SQL, and Android development. Through academic projects and self-driven initiatives,
+             I have built full-stack web applications, mobile apps, and API-driven systems. 
+             My passion lies in developing efficient, scalable solutions that enhance user experience. 
+             I am eager to apply my technical skills in a dynamic software development role, contributing to impactful projects and continuously growing as an engineer.</p>
           <SocialLinks>
             <SocialLink href="https://github.com/Hks30" target="_blank">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -66,7 +72,7 @@ const ContactSection = () => {
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
               </svg>
             </SocialLink>
-            <SocialLink href="shethhimanshi75@gmail.com">
+            <SocialLink href="mailto:shethhimanshi75@gmail.com">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
               </svg>
