@@ -101,16 +101,10 @@ const ContactSection = () => {
                 <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
               </svg>
             </SocialLink>
-            <SocialLink href="/Contact/Himanshi-Resume.pdf" target="_blank">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
-                <path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"/>
-              </svg>
-            </SocialLink>
           </SocialLinks>
           
           <DownloadContainer>
-            <DownloadLink href="/Contact/Himanshi-Resume.pdf" download>
+            <DownloadLink href="/Himanshi-Resume.pdf" download>
               Download Resume
             </DownloadLink>
           </DownloadContainer>
