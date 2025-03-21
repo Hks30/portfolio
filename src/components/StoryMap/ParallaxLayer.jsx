@@ -1,4 +1,3 @@
-// src/components/StoryMap/ParallaxLayer.jsx
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useParallax from '../../hooks/useParallax';

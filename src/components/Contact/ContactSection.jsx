@@ -44,6 +44,28 @@ const SocialLink = styled.a`
   }
 `;
 
+const DownloadLink = styled.a`
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #ff4d79;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background 0.3s;
+
+  &:hover {
+    background: #e63946;
+  }
+`;
+
+const DownloadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
 const ContactSection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,6 +83,8 @@ const ContactSection = () => {
              I have built full-stack web applications, mobile apps, and API-driven systems. 
              My passion lies in developing efficient, scalable solutions that enhance user experience. 
              I am eager to apply my technical skills in a dynamic software development role, contributing to impactful projects and continuously growing as an engineer.</p>
+             <Title>Contact Me</Title>
+
           <SocialLinks>
             <SocialLink href="https://github.com/Hks30" target="_blank">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -77,7 +101,19 @@ const ContactSection = () => {
                 <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
               </svg>
             </SocialLink>
+            <SocialLink href="/Contact/Himanshi-Resume.pdf" target="_blank">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                <path d="M8 12h8v2H8zm0 4h8v2H8zm0-8h2v2H8z"/>
+              </svg>
+            </SocialLink>
           </SocialLinks>
+          
+          <DownloadContainer>
+            <DownloadLink href="/Contact/Himanshi-Resume.pdf" download>
+              Download Resume
+            </DownloadLink>
+          </DownloadContainer>
         </ContactCard>
       </ContactContainer>
     </Element>
