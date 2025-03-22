@@ -5,6 +5,7 @@ import DetailPage from './components/StoryMap/DetailPage';
 
 const App = () => {
   return (
+    
     <Routes>
       <Route path="/" element={<StoryMap />} />
       <Route path="/detail/:id" element={<DetailPage />} />

@@ -1,5 +1,6 @@
 // src/components/StoryMap/Checkpoint.jsx
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types'; // For prop validation
 import { useInView } from 'react-intersection-observer';
 import { Link } from 'react-router-dom';
 import SkillBadge from '../UI/SkillBadge';
@@ -22,12 +23,12 @@ const CheckpointContainer = styled.div`
   padding: 15px;
   border: 1px solid ${props => props.isActive ? '#ff4d79' : '#304878'};
   transition: all 0.3s ease;
-  transform: ${props => props.isActive ? 'scale(1.05)' : 'scale(1)'};
-  z-index: ${props => props.isActive ? 10 : 5};
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  left: ${props => props.position?.x}px;
-  top: ${props => props.position?.y}px;
-  
+  transform: ${props => props.isActive ? 'scale(1.1)' : 'scale(1)'};
+  z-index: ${props => props.isActive ? 15 : 5};
+  box-shadow: ${props => props.isActive ? '0 0 15px #ff4d79' : '0 4px 20px rgba(0, 0, 0, 0.2)'};
+  left: ${props => props.position?.x || 0}px;
+  top: ${props => props.position?.y || 0}px;
+
   @media (max-width: 768px) {
     position: relative !important;
     left: 0 !important;
@@ -35,9 +36,9 @@ const CheckpointContainer = styled.div`
     max-width: 100%;
     margin: 40px auto;
   }
-  
+
   &:before {
-    content: '${props => props.checkpoint_id}';
+    content: '${props => props.checkpoint_id || ''}';
     position: absolute;
     left: -15px;
     top: -15px;
@@ -50,11 +51,15 @@ const CheckpointContainer = styled.div`
     justify-content: center;
     color: white;
     font-weight: bold;
+    z-index: 20;
+    box-shadow: ${props => props.isActive ? '0 0 10px #ff4d79' : 'none'};
   }
-  
+
   &:hover {
+    transform: scale(1.1);
     border-color: #ff4d79;
-    transform: scale(1.05);
+    box-shadow: 0 0 15px #ff4d79;
+    z-index: 15; /* Bring hovered checkpoints to the top */
   }
 `;
 
@@ -92,18 +97,24 @@ const ViewMore = styled.div`
   color: white;
   font-size: 0.75rem;
   transition: background 0.3s;
-  
+
   ${CheckpointContainer}:hover & {
     background: #ff4d79;
   }
 `;
 
-const Checkpoint = ({ data, isActive, onInView }) => {
-  const { ref, inView } = useInView({
+const Checkpoint = React.forwardRef(({ data, isActive, onInView }, ref) => {
+  const { ref: inViewRef, inView } = useInView({
     threshold: 0.5,
-    triggerOnce: false
+    triggerOnce: false,
   });
-  
+
+  // Combine refs for CheckpointContainer
+  const setRefs = (node) => {
+    ref && ref(node);
+    inViewRef(node);
+  };
+
   useEffect(() => {
     if (inView) {
       onInView(data.id);
@@ -113,8 +124,8 @@ const Checkpoint = ({ data, isActive, onInView }) => {
   return (
     <Element name={`checkpoint-${data.id}`}>
       <StyledLink to={`/detail/${data.id}`}>
-        <CheckpointContainer 
-          ref={ref}
+        <CheckpointContainer
+          ref={setRefs}
           isActive={isActive}
           position={data.position}
           checkpoint_id={data.id}
@@ -122,18 +133,48 @@ const Checkpoint = ({ data, isActive, onInView }) => {
           <Title>{data.title}</Title>
           <Subtitle>{data.subtitle}</Subtitle>
           <Details>{data.details}</Details>
-          
+
           <SkillsContainer>
             {data.skills.map((skill, index) => (
               <SkillBadge key={index} skill={skill} />
             ))}
           </SkillsContainer>
-          
+
           <ViewMore>View Details</ViewMore>
         </CheckpointContainer>
       </StyledLink>
     </Element>
   );
+});
+
+// Prop validation
+Checkpoint.propTypes = {
+  data: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    title: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
+    details: PropTypes.string,
+    position: PropTypes.shape({
+      x: PropTypes.number,
+      y: PropTypes.number,
+    }),
+    skills: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  isActive: PropTypes.bool,
+  onInView: PropTypes.func.isRequired,
+};
+
+// Default props
+Checkpoint.defaultProps = {
+  isActive: false,
+  data: {
+    id: '',
+    title: '',
+    subtitle: '',
+    details: '',
+    position: { x: 0, y: 0 },
+    skills: [],
+  },
 };
 
 export default Checkpoint;
