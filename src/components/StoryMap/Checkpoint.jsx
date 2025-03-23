@@ -18,9 +18,9 @@ const CheckpointContainer = styled.div`
   position: absolute;
   width: 100%;
   max-width: 220px;
-  background-color: rgba(20, 23, 37, 0.85);
+  background-color: rgba(18, 25, 52, 0.9); /* Increased opacity for better contrast */
   border-radius: 8px;
-  padding: 15px;
+  padding: 18px; /* Increased padding */
   border: 1px solid ${props => props.isActive ? '#ff4d79' : '#304878'};
   transition: all 0.3s ease;
   transform: ${props => props.isActive ? 'scale(1.1)' : 'scale(1)'};
@@ -34,7 +34,16 @@ const CheckpointContainer = styled.div`
     left: 0 !important;
     top: 0 !important;
     max-width: 100%;
-    margin: 40px auto;
+    margin: 40px auto; /* Increased vertical margin for better spacing */
+    transform: scale(1) !important; 
+    border: 1px solid ${props => props.isActive ? '#ff4d79' : '#304878'};
+  }
+  
+  @media (max-width: 480px) {
+    padding: 16px;
+    margin: 30px auto; /* Better spacing */
+    margin-top: 30px;
+    width: 92%;
   }
 
   &:before {
@@ -42,8 +51,8 @@ const CheckpointContainer = styled.div`
     position: absolute;
     left: -15px;
     top: -15px;
-    width: 30px;
-    height: 30px;
+    width: 32px; /* Slightly larger */
+    height: 32px;
     background: ${props => props.isActive ? '#ff4d79' : '#304878'};
     border-radius: 50%;
     display: flex;
@@ -65,41 +74,70 @@ const CheckpointContainer = styled.div`
 
 const Title = styled.h3`
   color: white;
-  margin: 0 0 5px;
-  font-size: 1rem;
+  margin: 0 0 8px; /* Increased margin */
+  font-size: 1.1rem;
+  
+  @media (max-width: 480px) {
+    font-size: 1.25rem; /* Increased font size for mobile */
+    margin-bottom: 10px;
+  }
 `;
 
 const Subtitle = styled.p`
   color: #b8c4d9;
-  margin: 0 0 10px;
-  font-size: 0.85rem;
+  margin: 0 0 12px; /* Increased margin */
+  font-size: 0.9rem;
+  
+  @media (max-width: 480px) {
+    font-size: 1rem; /* Increased font size for mobile */
+    margin-bottom: 14px;
+  }
 `;
 
 const Details = styled.p`
   color: white;
-  font-size: 0.8rem;
-  margin: 0 0 10px;
+  font-size: 0.85rem;
+  margin: 0 0 14px; /* Increased margin */
+  line-height: 1.5; /* Improved line height for readability */
+  
+  @media (max-width: 480px) {
+    font-size: 0.95rem; /* Increased font size for mobile */
+    line-height: 1.6;
+  }
 `;
 
 const SkillsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 6px; /* Increased gap */
+  margin-top: 12px;
+
+  @media (max-width: 480px) {
+    justify-content: flex-start; /* Changed to flex-start for better alignment */
+    gap: 8px;
+    margin-top: 16px;
+  }
 `;
 
 const ViewMore = styled.div`
   display: inline-block;
-  margin-top: 10px;
-  padding: 4px 8px;
+  margin-top: 14px;
+  padding: 6px 12px; /* Increased padding */
   background: #304878;
   border-radius: 4px;
   color: white;
-  font-size: 0.75rem;
-  transition: background 0.3s;
+  font-size: 0.8rem;
+  transition: background 0.3s, transform 0.2s;
+  
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    margin-top: 18px;
+  }
 
   ${CheckpointContainer}:hover & {
     background: #ff4d79;
+    transform: translateY(-2px); /* Subtle lift effect */
   }
 `;
 

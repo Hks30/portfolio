@@ -266,7 +266,7 @@ ParallaxLayer.defaultProps = {
 };
 
 const ParentComponent = () => {
-  const stars = Array.from({ length: 50 }).map(() => ({
+  const stars = Array.from({ length: window.innerWidth > 768 ? 50 : 25 }).map(() => ({
     top: Math.random() * 100,
     left: Math.random() * 100,
     opacity: Math.random() * 0.5 + 0.5,
@@ -274,7 +274,7 @@ const ParentComponent = () => {
     delay: Math.random() * 5,
   }));
 
-  const circles = Array.from({ length: 10 }).map(() => ({
+  const circles = Array.from({ length: window.innerWidth > 768 ? 10 : 5 }).map(() => ({
     size: Math.random() * 5 + 2,
     maxSize: Math.random() * 100 + 50,
     top: Math.random() * 100,

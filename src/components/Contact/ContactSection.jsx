@@ -3,13 +3,23 @@ import styled from 'styled-components';
 import { Element } from 'react-scroll';
 
 const ContactContainer = styled.div`
-  position: relative;
-  height: 10vh;
+  position: absolute;
+  bottom: 0; 
+  width: 100%;
+  height: 25vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #0c0e1a;
-  z-index: 5;
+  z-index: 10; 
+
+  @media (max-width: 768px) {
+    height: 8vh;
+  }
+    @media (max-width: 380px) {
+    width: 100%;
+    height: 80vh;
+  }
 `;
 
 const ContactCard = styled.div`
@@ -20,6 +30,12 @@ const ContactCard = styled.div`
   max-width: 2000px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   border: 0.5px solid #304878;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+    @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h2`
@@ -67,9 +83,7 @@ const DownloadContainer = styled.div`
 `;
 
 const ContactSection = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  
 
   return (
     <Element name="contact">
