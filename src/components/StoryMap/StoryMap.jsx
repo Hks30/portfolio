@@ -173,11 +173,11 @@ const MapTitle = styled.h2`
   
   @media (max-width: 768px) {
     font-size: 2rem;
-    margin-bottom: 10%;
+    margin-bottom: 14%;
   }
   @media (max-width: 480px) {
     font-size: 1.8rem;
-    margin-bottom: 10%;
+    margin-bottom: 15%;
   }
 `;
 
