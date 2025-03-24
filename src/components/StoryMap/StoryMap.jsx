@@ -177,7 +177,7 @@ const MapTitle = styled.h2`
   }
   @media (max-width: 480px) {
     font-size: 1.8rem;
-    margin-bottom: 15%;
+    margin-bottom: 10%;
   }
 `;
 
