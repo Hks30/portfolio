@@ -153,7 +153,7 @@ const ContactSection = () => {
             </SocialLinks>
             
             <DownloadContainer>
-              <DownloadLink href="/Himanshi-Resume.pdf" download>
+              <DownloadLink href="/resume_himanshi_sheth.pdf" download>
                 Download Resume
               </DownloadLink>
             </DownloadContainer>

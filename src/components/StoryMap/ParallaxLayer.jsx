@@ -10,281 +10,79 @@ const Layer = styled.div`
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  overflow: hidden;
 `;
 
-const Circle = styled.div`
+const CircuitLine = styled.div`
   position: absolute;
+  background: linear-gradient(
+    to right, 
+    transparent, 
+    rgba(48, 72, 120, 0.3), 
+    rgba(255, 77, 121, 0.3), 
+    transparent
+  );
+  height: 1px;
+  width: 100%;
+  opacity: 0.2;
+  animation: circuitFlow 10s linear infinite;
+  
+  @keyframes circuitFlow {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+`;
+
+const DataNode = styled.div`
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #ff4d79, #304878);
   border-radius: 50%;
-  background-color: ${props => props.color || '#304878'};
-  opacity: ${props => props.opacity || 0.15};
-  width: ${props => `${props.size}vw`};
-  height: ${props => `${props.size}vw`};
-  max-width: ${props => `${props.maxSize}px`};
-  max-height: ${props => `${props.maxSize}px`};
-  top: ${props => props.top}%;
-  left: ${props => props.left}%;
-  transform: translate(${props => props.x}px, ${props => props.y}px);
-  transition: transform 0.2s ease-out;
-  box-shadow: 0 0 ${props => props.glow ? '15px' : '0'} ${props => props.glow ? props.color : 'transparent'};
-  animation: pulse 8s infinite ease-in-out;
-  animation-delay: ${props => props.delay}s;
+  opacity: 0.7;
+  box-shadow: 0 0 8px rgba(255, 77, 121, 0.5);
+  animation: pulseNode 3s infinite ease-in-out;
   
-  @keyframes pulse {
-    0% {
-      transform: translate(${props => props.x}px, ${props => props.y}px) scale(1);
-      opacity: ${props => props.opacity || 0.15};
-    }
-    50% {
-      transform: translate(${props => props.x}px, ${props => props.y}px) scale(1.1);
-      opacity: ${props => (props.opacity || 0.15) + 0.05};
-    }
-    100% {
-      transform: translate(${props => props.x}px, ${props => props.y}px) scale(1);
-      opacity: ${props => props.opacity || 0.15};
-    }
+  @keyframes pulseNode {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.5); }
   }
 `;
 
-const Star = styled.div`
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background-color: white;
-  opacity: ${props => props.opacity};
-  top: ${props => props.top}%;
-  left: ${props => props.left}%;
-  border-radius: 50%;
-  box-shadow: 0 0 3px white;
-  animation: twinkle ${props => props.duration}s infinite ease-in-out;
-  animation-delay: ${props => props.delay}s;
-  
-  @keyframes twinkle {
-    0% { opacity: ${props => props.opacity}; }
-    50% { opacity: 0.1; }
-    100% { opacity: ${props => props.opacity}; }
-  }
-`;
-
-const GradientPipeline = styled.div`
-  position: absolute;
-  width: 3px; /* Slightly wider */
-  height: 100%;
-  background: linear-gradient(to bottom, #ff4d79, #304878);
-  opacity: 0.6; /* Slightly more visible */
-  z-index: -1;
-  box-shadow: 0 0 8px rgba(255, 77, 121, 0.5); /* Added glow effect */
-  animation: flow 7s linear infinite, 
-             pulseGlow 3s infinite ease-in-out,
-             widthPulse 5s infinite ease-in-out; /* Width animation */
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 8px;
-    height: 8px;
-    background-color: #ff4d79;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #ff4d79, 0 0 20px #ff4d79;
-    opacity: 0.8;
-    animation: particleFlow 4s linear infinite;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
-    background-color: #304878;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #304878;
-    opacity: 0.8;
-    animation: particleFlow 3s linear infinite 1.5s;
-  }
-
-  &:nth-child(1) {
-    left: 50%; /* Center pipeline */
-    animation-delay: 0s;
-    &::before { animation-delay: 0.5s; }
-    &::after { animation-delay: 2s; }
-  }
-
-  &:nth-child(2) {
-    left: 20%; /* Moved to left side */
-    width: 2px; /* Thinner */
-    opacity: 0.4;
-    animation-delay: 1s;
-    &::before { animation-delay: 1s; }
-    &::after { animation-delay: 3s; }
-  }
-
-  &:nth-child(3) {
-    left: 80%; /* Moved to right side */
-    width: 2px; /* Thinner */
-    opacity: 0.4;
-    animation-delay: 2s;
-    &::before { animation-delay: 1.5s; }
-    &::after { animation-delay: 4s; }
-  }
-
-  /* Add connectors between pipelines */
-  &:nth-child(2)::after {
-    content: '';
-    position: absolute;
-    top: 40%;
-    left: 0;
-    width: 30vw; /* Horizontal connector width */
-    height: 1px;
-    background: linear-gradient(to right, transparent, #304878, transparent);
-    opacity: 0.3;
-    animation: none;
-    box-shadow: 0 0 5px #304878;
-    transform: none;
-    border-radius: 0;
-  }
-
-  &:nth-child(3)::after {
-    content: '';
-    position: absolute;
-    top: 70%;
-    left: -30vw;
-    width: 30vw; /* Horizontal connector width */
-    height: 1px;
-    background: linear-gradient(to right, transparent, #ff4d79, transparent);
-    opacity: 0.3;
-    animation: none;
-    box-shadow: 0 0 5px #ff4d79;
-    transform: none;
-    border-radius: 0;
-  }
-
-  @keyframes flow {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(100%);
-    }
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% {
-      opacity: 0.6;
-      box-shadow: 0 0 8px rgba(255, 77, 121, 0.5);
-    }
-    50% {
-      opacity: 0.8;
-      box-shadow: 0 0 15px rgba(255, 77, 121, 0.7);
-    }
-  }
-  
-  @keyframes widthPulse {
-    0%, 100% {
-      width: 3px;
-    }
-    50% {
-      width: 4px;
-    }
-  }
-  
-  @keyframes particleFlow {
-    0% {
-      top: -10px;
-      opacity: 0;
-    }
-    10% {
-      opacity: 0.8;
-    }
-    90% {
-      opacity: 0.8;
-    }
-    100% {
-      top: 100%;
-      opacity: 0;
-    }
-  }
-`;
-
-const FloatingShapes = styled.div`
+const TechGradientBackground = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: -1;
-
-  .shape {
-    position: absolute;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff4d79, #304878);
-    opacity: 0.1;
-    animation: float 10s infinite ease-in-out, rotate 20s infinite linear;
-  }
-
-  .shape.small {
-    width: 50px;
-    height: 50px;
-    top: 10%;
-    left: 20%;
-    animation-delay: 0s;
-  }
-
-  .shape.large {
-    width: 150px;
-    height: 150px;
-    top: 70%;
-    left: 80%;
-    animation-delay: 2s;
-  }
-
-  .shape.hexagon {
-    width: 80px;
-    height: 80px;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    background: linear-gradient(135deg, #304878, #ff4d79);
-    top: 40%;
-    left: 50%;
-    animation-delay: 1s;
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
-  }
-
-  @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const BackgroundGlow = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(255, 77, 121, 0.2), rgba(48, 72, 120, 0.1));
+  background: linear-gradient(
+    45deg, 
+    rgba(48, 72, 120, 0.05), 
+    rgba(255, 77, 121, 0.05)
+  );
+  opacity: 0.8;
   z-index: -2;
-  animation: glowPulse 5s infinite ease-in-out;
-
-  @keyframes glowPulse {
-    0%, 100% {
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.4;
-    }
+  filter: blur(100px);
+  animation: backgroundFlow 15s ease infinite alternate;
+  
+  @keyframes backgroundFlow {
+    0% { opacity: 0.6; transform: scale(1); }
+    100% { opacity: 0.8; transform: scale(1.1); }
   }
+`;
+
+const GridOverlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(0deg, transparent 24%, rgba(48, 72, 120, 0.05) 25%, rgba(48, 72, 120, 0.05) 26%, transparent 27%, transparent 74%, rgba(48, 72, 120, 0.05) 75%, rgba(48, 72, 120, 0.05) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(48, 72, 120, 0.05) 25%, rgba(48, 72, 120, 0.05) 26%, transparent 27%, transparent 74%, rgba(48, 72, 120, 0.05) 75%, rgba(48, 72, 120, 0.05) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  opacity: 0.1;
+  z-index: -1;
 `;
 
 const ParallaxLayer = () => {
@@ -293,44 +91,24 @@ const ParallaxLayer = () => {
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
 
-  // Generate stars and circles within the component using useMemo
-  const stars = useMemo(() => {
+  // Generate tech nodes
+  const techNodes = useMemo(() => {
     const isDesktop = window.innerWidth > 768;
-    return Array.from({ length: isDesktop ? 50 : 25 }).map(() => ({
+    return Array.from({ length: isDesktop ? 30 : 15 }).map(() => ({
       top: Math.random() * 100,
       left: Math.random() * 100,
-      opacity: Math.random() * 0.5 + 0.5,
-      duration: Math.random() * 5 + 5,
+      size: Math.random() * 3 + 2,
       delay: Math.random() * 5,
     }));
   }, []);
 
-  const circles = useMemo(() => {
+  // Generate circuit lines
+  const circuitLines = useMemo(() => {
     const isDesktop = window.innerWidth > 768;
     return Array.from({ length: isDesktop ? 10 : 5 }).map(() => ({
-      size: Math.random() * 5 + 2,
-      maxSize: Math.random() * 100 + 50,
       top: Math.random() * 100,
-      left: Math.random() * 100,
-      color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
-        Math.random() * 255
-      )}, ${Math.floor(Math.random() * 255)}, 0.5)`,
-      opacity: Math.random() * 0.5 + 0.5,
-      factor: Math.random() * 2 + 1,
-      glow: Math.random() > 0.5,
       delay: Math.random() * 5,
     }));
-  }, []);
-
-  // Generate binary code for code effect
-  const binaryCode = useMemo(() => {
-    let code = '';
-    for (let i = 0; i < 500; i++) {
-      code += Math.random() > 0.5 ? '1' : '0';
-      if (i % 8 === 7) code += ' ';
-      if (i % 40 === 39) code += '\n';
-    }
-    return code;
   }, []);
 
   const handleMouseMove = (e) => {
@@ -341,64 +119,37 @@ const ParallaxLayer = () => {
   };
 
   return (
-    <div ref={ref} onMouseMove={handleMouseMove}>
-      <BackgroundGlow />
+    <div ref={ref} onMouseMove={handleMouseMove} style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <TechGradientBackground 
+        style={{
+          transform: `translate(${mouseX * 20}px, ${mouseY * 20}px)`,
+        }}
+      />
+      <GridOverlay />
       <Layer>
-        <FloatingShapes>
-          <div
-            className="shape small"
+        {/* Circuit Lines */}
+        {circuitLines.map((line, index) => (
+          <CircuitLine
+            key={`circuit-${index}`}
             style={{
-              transform: `translate(${mouseX * 10}px, ${mouseY * 10}px)`,
+              top: `${line.top}%`,
+              animationDelay: `${line.delay}s`,
             }}
-          ></div>
-          <div
-            className="shape large"
-            style={{
-              transform: `translate(${mouseX * -15}px, ${mouseY * -15}px)`,
-            }}
-          ></div>
-          <div
-            className="shape hexagon"
-            style={{
-              transform: `translate(${mouseX * 5}px, ${mouseY * 5}px)`,
-            }}
-          ></div>
-        </FloatingShapes>
-
-        <GradientPipeline />
-        <GradientPipeline />
-        <GradientPipeline />
-
-      
-
-        {/* Stars */}
-        {stars.map((star, index) => (
-          <Star
-            key={`star-${index}`}
-            top={star.top + mouseY * 5}
-            left={star.left + mouseX * 5}
-            opacity={star.opacity}
-            duration={star.duration}
-            delay={star.delay}
-            animate={true}
           />
         ))}
 
-        {/* Circles */}
-        {circles.map((circle, index) => (
-          <Circle
-            key={index}
-            size={circle.size}
-            maxSize={circle.maxSize}
-            top={circle.top}
-            left={circle.left}
-            color={circle.color}
-            opacity={circle.opacity}
-            x={x * circle.factor * -1 + mouseX * 10}
-            y={y * circle.factor * -1 + mouseY * 10}
-            glow={circle.glow}
-            delay={circle.delay}
-            animate={true}
+        {/* Tech Nodes */}
+        {techNodes.map((node, index) => (
+          <DataNode
+            key={`node-${index}`}
+            style={{
+              top: `${node.top}%`,
+              left: `${node.left}%`,
+              width: `${node.size}px`,
+              height: `${node.size}px`,
+              transform: `translate(${mouseX * 10}px, ${mouseY * 10}px)`,
+              animationDelay: `${node.delay}s`,
+            }}
           />
         ))}
       </Layer>
