@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useMemo } from 'react';
 import styled from 'styled-components';
 import useParallax from '../../hooks/useParallax';
 
@@ -67,26 +67,100 @@ const Star = styled.div`
 
 const GradientPipeline = styled.div`
   position: absolute;
-  width: 2px;
+  width: 3px; /* Slightly wider */
   height: 100%;
   background: linear-gradient(to bottom, #ff4d79, #304878);
-  opacity: 0.5;
-  animation: flow 5s linear infinite, pulseGlow 3s infinite ease-in-out;
+  opacity: 0.6; /* Slightly more visible */
   z-index: -1;
+  box-shadow: 0 0 8px rgba(255, 77, 121, 0.5); /* Added glow effect */
+  animation: flow 7s linear infinite, 
+             pulseGlow 3s infinite ease-in-out,
+             widthPulse 5s infinite ease-in-out; /* Width animation */
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #ff4d79;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff4d79, 0 0 20px #ff4d79;
+    opacity: 0.8;
+    animation: particleFlow 4s linear infinite;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background-color: #304878;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #304878;
+    opacity: 0.8;
+    animation: particleFlow 3s linear infinite 1.5s;
+  }
 
   &:nth-child(1) {
-    left: 20%;
+    left: 50%; /* Center pipeline */
     animation-delay: 0s;
+    &::before { animation-delay: 0.5s; }
+    &::after { animation-delay: 2s; }
   }
 
   &:nth-child(2) {
-    left: 50%;
+    left: 20%; /* Moved to left side */
+    width: 2px; /* Thinner */
+    opacity: 0.4;
     animation-delay: 1s;
+    &::before { animation-delay: 1s; }
+    &::after { animation-delay: 3s; }
   }
 
   &:nth-child(3) {
-    left: 80%;
+    left: 80%; /* Moved to right side */
+    width: 2px; /* Thinner */
+    opacity: 0.4;
     animation-delay: 2s;
+    &::before { animation-delay: 1.5s; }
+    &::after { animation-delay: 4s; }
+  }
+
+  /* Add connectors between pipelines */
+  &:nth-child(2)::after {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 0;
+    width: 30vw; /* Horizontal connector width */
+    height: 1px;
+    background: linear-gradient(to right, transparent, #304878, transparent);
+    opacity: 0.3;
+    animation: none;
+    box-shadow: 0 0 5px #304878;
+    transform: none;
+    border-radius: 0;
+  }
+
+  &:nth-child(3)::after {
+    content: '';
+    position: absolute;
+    top: 70%;
+    left: -30vw;
+    width: 30vw; /* Horizontal connector width */
+    height: 1px;
+    background: linear-gradient(to right, transparent, #ff4d79, transparent);
+    opacity: 0.3;
+    animation: none;
+    box-shadow: 0 0 5px #ff4d79;
+    transform: none;
+    border-radius: 0;
   }
 
   @keyframes flow {
@@ -100,10 +174,38 @@ const GradientPipeline = styled.div`
 
   @keyframes pulseGlow {
     0%, 100% {
-      opacity: 0.5;
+      opacity: 0.6;
+      box-shadow: 0 0 8px rgba(255, 77, 121, 0.5);
     }
     50% {
-      opacity: 0.7;
+      opacity: 0.8;
+      box-shadow: 0 0 15px rgba(255, 77, 121, 0.7);
+    }
+  }
+  
+  @keyframes widthPulse {
+    0%, 100% {
+      width: 3px;
+    }
+    50% {
+      width: 4px;
+    }
+  }
+  
+  @keyframes particleFlow {
+    0% {
+      top: -10px;
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.8;
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      top: 100%;
+      opacity: 0;
     }
   }
 `;
@@ -185,11 +287,51 @@ const BackgroundGlow = styled.div`
   }
 `;
 
-const ParallaxLayer = ({ stars = [], circles = [] }) => {
+const ParallaxLayer = () => {
   const ref = useRef(null);
   const { x, y } = useParallax(ref);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+
+  // Generate stars and circles within the component using useMemo
+  const stars = useMemo(() => {
+    const isDesktop = window.innerWidth > 768;
+    return Array.from({ length: isDesktop ? 50 : 25 }).map(() => ({
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      opacity: Math.random() * 0.5 + 0.5,
+      duration: Math.random() * 5 + 5,
+      delay: Math.random() * 5,
+    }));
+  }, []);
+
+  const circles = useMemo(() => {
+    const isDesktop = window.innerWidth > 768;
+    return Array.from({ length: isDesktop ? 10 : 5 }).map(() => ({
+      size: Math.random() * 5 + 2,
+      maxSize: Math.random() * 100 + 50,
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+        Math.random() * 255
+      )}, ${Math.floor(Math.random() * 255)}, 0.5)`,
+      opacity: Math.random() * 0.5 + 0.5,
+      factor: Math.random() * 2 + 1,
+      glow: Math.random() > 0.5,
+      delay: Math.random() * 5,
+    }));
+  }, []);
+
+  // Generate binary code for code effect
+  const binaryCode = useMemo(() => {
+    let code = '';
+    for (let i = 0; i < 500; i++) {
+      code += Math.random() > 0.5 ? '1' : '0';
+      if (i % 8 === 7) code += ' ';
+      if (i % 40 === 39) code += '\n';
+    }
+    return code;
+  }, []);
 
   const handleMouseMove = (e) => {
     const { clientX, clientY, currentTarget } = e;
@@ -227,6 +369,9 @@ const ParallaxLayer = ({ stars = [], circles = [] }) => {
         <GradientPipeline />
         <GradientPipeline />
 
+      
+
+        {/* Stars */}
         {stars.map((star, index) => (
           <Star
             key={`star-${index}`}
@@ -239,6 +384,7 @@ const ParallaxLayer = ({ stars = [], circles = [] }) => {
           />
         ))}
 
+        {/* Circles */}
         {circles.map((circle, index) => (
           <Circle
             key={index}
@@ -258,37 +404,6 @@ const ParallaxLayer = ({ stars = [], circles = [] }) => {
       </Layer>
     </div>
   );
-};
-
-ParallaxLayer.defaultProps = {
-  stars: [],
-  circles: [],
-};
-
-const ParentComponent = () => {
-  const stars = Array.from({ length: window.innerWidth > 768 ? 50 : 25 }).map(() => ({
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    opacity: Math.random() * 0.5 + 0.5,
-    duration: Math.random() * 5 + 5,
-    delay: Math.random() * 5,
-  }));
-
-  const circles = Array.from({ length: window.innerWidth > 768 ? 10 : 5 }).map(() => ({
-    size: Math.random() * 5 + 2,
-    maxSize: Math.random() * 100 + 50,
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    color: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
-      Math.random() * 255
-    )}, ${Math.floor(Math.random() * 255)}, 0.5)`,
-    opacity: Math.random() * 0.5 + 0.5,
-    factor: Math.random() * 2 + 1,
-    glow: Math.random() > 0.5,
-    delay: Math.random() * 5,
-  }));
-
-  return <ParallaxLayer stars={stars} circles={circles} />;
 };
 
 export default ParallaxLayer;

@@ -142,15 +142,14 @@ const StoryMapContainer = styled.div`
   width: 100%;
   min-height: 100vh;
   background-color: #0c0e1a;
-  overflow: hidden;
-  padding: 80px 20px;
-  padding-bottom: 120px;
+  overflow: visible; 
+  padding: 80px 20px 100px 20px; 
   
   @media (max-width: 768px) {
-    padding: 60px 15px;
+    padding: 60px 15px 120px 15px; 
   }
   @media (max-width: 480px) {
-    padding: 10px 10px;
+    padding: 20px 10px 150px 10px; 
   }
 `;
 
@@ -187,18 +186,13 @@ const MapContent = styled.div`
   max-width: 1200px;
   color:white;
   margin: 0 auto;
-  min-height: 150px; /* This will be overridden in JavaScript based on content */
-  padding-bottom: 6%; /* Space for contact section */
+  min-height: 150px; 
   z-index: 10;
   @media (max-width: 768px) {
     min-height: auto;
   }
     @media (max-width: 480px) {
-    padding-bottom: 80px;
-        width: 100%;
-        padding-bottom: 6%; /* Space for contact section */
-
-
+    width: 100%;
   }
 `;
 
@@ -264,16 +258,20 @@ const StoryMap = () => {
       // Mobile positioning (will be relative)
       journeyData.forEach((checkpoint, index) => {
         const id = checkpoint.id;
-        const yPos = index * 350; // Approximate vertical spacing for mobile
+        const yPos = index * 450; // Increased spacing from 400 to 450
         positions[id] = { x: 0, y: yPos };
         
         // Update max height
-        maxHeight = (index + 1) * 350;
+        maxHeight = (index + 1) * 450;
       });
     }
     
-    // Add extra space at the bottom
-    maxHeight += 300;
+    // Add even more extra space at the bottom
+    if (isMobile) {
+      maxHeight += 100; // Just a little extra for checkpoints, ContactSection will be outside
+    } else {
+      maxHeight += 200;
+    }
     
     setCheckpointPositions(positions);
     setMapHeight(maxHeight);
@@ -421,12 +419,14 @@ const StoryMap = () => {
                 onCheckpointClick={navigateToCheckpoint}
               />
             </Suspense>
-            
-            {/* Contact section at the bottom */}
+          </MapContent>
+          
+          {/* Contact section OUTSIDE the MapContent */}
+          <div style={{ position: 'relative', marginTop: '50px' }}>
             <Suspense fallback={<LoadingPlaceholder initial={false} />}>
               <ContactSection />
             </Suspense>
-          </MapContent>
+          </div>
         </ErrorBoundary>
       </StoryMapContainer>
     </>
