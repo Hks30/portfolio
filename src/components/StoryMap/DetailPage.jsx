@@ -32,19 +32,24 @@ const Header = styled.header`
 `;
 
 const BackButton = styled(Link)`
-  display: flex;
+display: inline-flex;
   align-items: center;
+  background: #304878;
   color: white;
   text-decoration: none;
-  font-size: 1rem;
-  background: #304878;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 4px;
+  margin-top: 20px;
   transition: background 0.3s;
   
   &:hover {
     background: #ff4d79;
   }
+  
+  svg {
+    margin-right: 8px;
+  }
+   
 `;
 
 const Title = styled.h1`
@@ -140,15 +145,15 @@ const DetailPage = () => {
   
   // Get the data for the specific checkpoint
   const getCheckpointData = () => {
-    const { education, projects } = journeyData;
-    
-    if (idNumber === education.id) {
-      return education;
-    } else {
-      return projects.find(project => project.id === idNumber);
+    // Check if journeyData exists
+    if (!journeyData || !Array.isArray(journeyData)) {
+      console.error('Journey data structure is incorrect:', journeyData);
+      return null;
     }
+    
+    // Find the entry with the matching ID
+    return journeyData.find(item => item.id === idNumber);
   };
-  
   const data = getCheckpointData();
   
   // Additional content based on the type of data
@@ -275,11 +280,7 @@ const DetailPage = () => {
   return (
     <DetailPageContainer>
       <ContentWrapper>
-        <Header>
-          <BackButton to="/">
-            <BackIcon /> Back to Journey Map
-          </BackButton>
-        </Header>
+      
         
         <Title>{data.title}</Title>
         <Subtitle>{data.subtitle}</Subtitle>
@@ -293,7 +294,10 @@ const DetailPage = () => {
           </SkillsContainer>
         </Section>
         
-        {renderAdditionalContent()}
+        {renderAdditionalContent()}<br/>
+        <BackButton to="/">
+          <BackIcon /> Back to Journey Map
+        </BackButton>
       </ContentWrapper>
     </DetailPageContainer>
   );
