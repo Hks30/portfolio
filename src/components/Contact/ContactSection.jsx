@@ -119,6 +119,14 @@ const ContactSectionContainer = styled.div`
 `;
 
 const ContactSection = () => {
+  const handleResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = `${process.env.PUBLIC_URL}/resume_himanshi_sheth.pdf`;
+    link.download = 'Himanshi_Sheth_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
   return (
     <ContactSectionContainer>
       <Element name="contact">
@@ -153,7 +161,10 @@ const ContactSection = () => {
             </SocialLinks>
             
             <DownloadContainer>
-              <DownloadLink href="/resume_himanshi_sheth.pdf" download>
+              <DownloadLink 
+                as="button" 
+                onClick={handleResumeDownload}
+              >
                 Download Resume
               </DownloadLink>
             </DownloadContainer>
